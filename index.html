@@ -238,7 +238,7 @@
     <div class="campo">
       <label for="telefone" data-t="lblTelefone"></label>
       <input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="numeric"
-             placeholder="(61) 99999-9999" required>
+             placeholder="(555) 123-4567" required>
     </div>
 
     <h2 data-t="escolha"></h2>
@@ -281,7 +281,7 @@
       sub: 'Um dia de aprendizado, networking, bem-estar e sorteios exclusivos.',
       seusDados: 'Seus dados',
       lblNome: 'Nome completo',
-      lblTelefone: 'Telefone com DDD',
+      lblTelefone: 'Telefone',
       escolha: 'Escolha suas atividades',
       hint: 'Cada atividade tem 40 vagas. Você pode participar de quantas quiser.',
       carregando: 'Carregando atividades…',
@@ -294,7 +294,7 @@
       confirmar: 'Confirmar inscrição',
       enviando: 'Enviando…',
       erroNome: 'Informe seu nome completo.',
-      erroTelefone: 'Informe um telefone válido com DDD.',
+      erroTelefone: 'Informe um telefone válido: (555) 123-4567.',
       erroAtividade: 'Escolha ao menos uma atividade.',
       semVagasExtra: ' — atualize a página para ver as vagas atuais.',
       confirmada: 'Inscrição confirmada',
@@ -321,7 +321,7 @@
       confirmar: 'Confirm registration',
       enviando: 'Sending…',
       erroNome: 'Please enter your full name.',
-      erroTelefone: 'Please enter a valid phone number.',
+      erroTelefone: 'Please enter a valid phone number: (555) 123-4567.',
       erroAtividade: 'Choose at least one activity.',
       semVagasExtra: ' — reload the page to see current availability.',
       confirmada: 'Registration confirmed',
@@ -376,19 +376,21 @@
   document.getElementById('btn-pt').addEventListener('click', () => aplicarIdioma('pt'));
   document.getElementById('btn-en').addEventListener('click', () => aplicarIdioma('en'));
 
-  // máscara simples de telefone BR
+  // máscara de telefone padrão americano: (XXX) XXX-XXXX
   document.getElementById('telefone').addEventListener('input', (e) => {
-    let d = e.target.value.replace(/\D/g, '').slice(0, 11);
-    if (d.length > 6)      e.target.value = `(${d.slice(0,2)}) ${d.slice(2, d.length > 10 ? 7 : 6)}-${d.slice(d.length > 10 ? 7 : 6)}`;
-    else if (d.length > 2) e.target.value = `(${d.slice(0,2)}) ${d.slice(2)}`;
+    let d = e.target.value.replace(/\D/g, '').slice(0, 10);
+    if (d.length > 6)      e.target.value = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    else if (d.length > 3) e.target.value = `(${d.slice(0,3)}) ${d.slice(3)}`;
     else                   e.target.value = d;
   });
 
   async function carregar() {
     const { data, error } = await supabase.from('vagas_disponiveis').select('*');
     if (error) {
+      console.error('Supabase:', error);
       lista.className = '';
-      lista.innerHTML = `<div class="msg erro" style="display:block">${t('erroCarregar')}</div>`;
+      lista.innerHTML = `<div class="msg erro" style="display:block">${t('erroCarregar')}<br>
+        <code style="font-size:.78rem;word-break:break-all">${error.code ?? ''} ${error.message}</code></div>`;
       return;
     }
     atividades = data;
@@ -444,7 +446,7 @@
     const escolhidas = selecionadas();
 
     if (nome.length < 3) return erro(t('erroNome'));
-    if (telefone.replace(/\D/g, '').length < 10) return erro(t('erroTelefone'));
+    if (telefone.replace(/\D/g, '').length !== 10) return erro(t('erroTelefone'));
     if (escolhidas.length === 0) return erro(t('erroAtividade'));
 
     btn.disabled = true;
