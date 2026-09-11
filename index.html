@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Inscrição — Health, Wellness & Lifestyle Expo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-escuro: #1B4332;
+    --verde: #2D6A4F;
+    --dourado: #B8862D;
+    --papel: #FAF7F0;
+    --tinta: #1F241C;
+    --tinta-suave: #5C6357;
+    --linha: #E4DECF;
+    --raio: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--papel);
+    color: var(--tinta);
+    line-height: 1.5;
+    padding-bottom: 110px; /* espaço para a barra fixa */
+  }
+  header {
+    background: var(--verde-escuro);
+    color: #F3EFE4;
+    padding: 20px 20px 24px;
+  }
+  .idiomas {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .idiomas button {
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 3px;
+    cursor: pointer;
+    line-height: 0;
+    opacity: .55;
+    transition: opacity .15s, border-color .15s;
+  }
+  .idiomas button.ativo { opacity: 1; border-color: #D9B45B; }
+  .idiomas button:focus-visible { outline: 3px solid rgba(217,180,91,.6); }
+  .idiomas svg { width: 34px; height: 24px; border-radius: 4px; display: block; }
+
+  header .convite { font-size: 0.85rem; color: #CBBF98; margin-bottom: 6px; }
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+  header h1 em { color: #D9B45B; font-style: normal; }
+  header p.sub { margin-top: 10px; font-size: 0.9rem; color: #BFCDBF; }
+
+  main { max-width: 560px; margin: 0 auto; padding: 20px 16px; }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    font-size: 1.15rem;
+    margin: 18px 0 10px;
+    color: var(--verde-escuro);
+  }
+
+  .campo { margin-bottom: 14px; }
+  .campo label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 5px; }
+  .campo input {
+    width: 100%;
+    font: inherit;
+    padding: 13px 14px;
+    border: 1.5px solid var(--linha);
+    border-radius: var(--raio);
+    background: #fff;
+    color: var(--tinta);
+  }
+  .campo input:focus {
+    outline: 3px solid rgba(45,106,79,.35);
+    border-color: var(--verde);
+  }
+
+  .atividade {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: start;
+    background: #fff;
+    border: 1.5px solid var(--linha);
+    border-radius: var(--raio);
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .atividade:has(input:checked) {
+    border-color: var(--verde);
+    background: #F0F6F1;
+  }
+  .atividade:has(input:focus-visible) { outline: 3px solid rgba(45,106,79,.35); }
+  .atividade.lotada { opacity: .55; cursor: not-allowed; }
+  .atividade input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .hora {
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    font-size: 1.25rem;
+    color: var(--verde-escuro);
+    min-width: 58px;
+  }
+  .info .titulo { font-weight: 600; font-size: 0.95rem; }
+  .info .palestrante { font-size: 0.83rem; color: var(--tinta-suave); margin-top: 2px; }
+
+  .vagas {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    background: #EAF3EB;
+    color: var(--verde);
+  }
+  .vagas.poucas { background: #F7EDD8; color: var(--dourado); }
+  .vagas.zero   { background: #F1E4E2; color: #A0442F; }
+
+  .check {
+    grid-column: 1 / -1;
+    font-size: 0.8rem;
+    color: var(--verde);
+    font-weight: 600;
+    display: none;
+  }
+  .atividade:has(input:checked) .check { display: block; }
+
+  .barra {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: #fff;
+    border-top: 1.5px solid var(--linha);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  }
+  .barra-inner {
+    max-width: 560px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .contagem { font-size: 0.85rem; color: var(--tinta-suave); flex: 1; }
+  button.enviar {
+    font: inherit; font-weight: 600;
+    background: var(--verde-escuro);
+    color: #fff;
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 24px;
+    cursor: pointer;
+  }
+  button.enviar:disabled { background: #A9B3A6; cursor: not-allowed; }
+  button.enviar:focus-visible { outline: 3px solid rgba(45,106,79,.5); outline-offset: 2px; }
+
+  .msg {
+    border-radius: var(--raio);
+    padding: 13px 14px;
+    font-size: 0.9rem;
+    margin: 12px 0;
+    display: none;
+  }
+  .msg.erro    { display: block; background: #F1E4E2; color: #7A2E1C; }
+
+  .carregando { text-align: center; color: var(--tinta-suave); padding: 30px 0; }
+
+  #confirmacao { display: none; text-align: center; padding: 48px 20px; }
+  #confirmacao .selo { font-family: 'Fraunces', serif; font-size: 2.4rem; color: var(--verde); }
+  #confirmacao h2 { font-size: 1.4rem; }
+  #confirmacao p { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
+  #confirmacao button {
+    margin-top: 22px; font: inherit; font-weight: 600;
+    background: none; border: 1.5px solid var(--verde);
+    color: var(--verde); border-radius: 999px; padding: 11px 22px; cursor: pointer;
+  }
+
+  @media (min-width: 700px) {
+    header { text-align: center; }
+    header h1 { font-size: 2.1rem; }
+    .idiomas { justify-content: flex-end; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="idiomas" role="group" aria-label="Idioma / Language">
+    <button id="btn-pt" class="ativo" aria-label="Português (Brasil)" title="Português">
+      <!-- Bandeira do Brasil (simplificada) -->
+      <svg viewBox="0 0 34 24" aria-hidden="true">
+        <rect width="34" height="24" fill="#009B3A"/>
+        <polygon points="17,3 31,12 17,21 3,12" fill="#FEDF00"/>
+        <circle cx="17" cy="12" r="5.2" fill="#002776"/>
+        <path d="M12.2 11.2 Q17 9.4 21.8 12.4" stroke="#fff" stroke-width="1" fill="none"/>
+      </svg>
+    </button>
+    <button id="btn-en" aria-label="English (US)" title="English">
+      <!-- US flag (simplified) -->
+      <svg viewBox="0 0 34 24" aria-hidden="true">
+        <rect width="34" height="24" fill="#fff"/>
+        <g fill="#B22234">
+          <rect y="0"    width="34" height="3.43"/>
+          <rect y="6.86" width="34" height="3.43"/>
+          <rect y="13.7" width="34" height="3.43"/>
+          <rect y="20.57" width="34" height="3.43"/>
+        </g>
+        <rect width="14.5" height="12" fill="#3C3B6E"/>
+        <g fill="#fff">
+          <circle cx="3" cy="3" r=".9"/><circle cx="7.3" cy="3" r=".9"/><circle cx="11.6" cy="3" r=".9"/>
+          <circle cx="5.1" cy="6" r=".9"/><circle cx="9.4" cy="6" r=".9"/>
+          <circle cx="3" cy="9" r=".9"/><circle cx="7.3" cy="9" r=".9"/><circle cx="11.6" cy="9" r=".9"/>
+        </g>
+      </svg>
+    </button>
+  </div>
+  <p class="convite" data-t="convite"></p>
+  <h1>Health, Wellness &amp;<br><em>Lifestyle Expo</em></h1>
+  <p class="sub" data-t="sub"></p>
+</header>
+
+<main>
+  <form id="form" novalidate>
+    <h2 data-t="seusDados"></h2>
+    <div class="campo">
+      <label for="nome" data-t="lblNome"></label>
+      <input id="nome" name="nome" type="text" autocomplete="name" required minlength="3">
+    </div>
+    <div class="campo">
+      <label for="telefone" data-t="lblTelefone"></label>
+      <input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="numeric"
+             placeholder="(61) 99999-9999" required>
+    </div>
+
+    <h2 data-t="escolha"></h2>
+    <p style="font-size:.85rem;color:var(--tinta-suave);margin-bottom:12px" data-t="hint"></p>
+    <div id="lista" class="carregando"></div>
+
+    <div id="msg" class="msg" role="alert"></div>
+  </form>
+
+  <section id="confirmacao">
+    <div class="selo">✦</div>
+    <h2 data-t="confirmada"></h2>
+    <p id="resumo"></p>
+    <p data-t="nosVemos"></p>
+    <button type="button" id="nova" data-t="novaInscricao"></button>
+  </section>
+</main>
+
+<div class="barra" id="barra">
+  <div class="barra-inner">
+    <span class="contagem" id="contagem"></span>
+    <button class="enviar" id="enviar" disabled form="form" data-t="confirmar"></button>
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  // ── CONFIGURE AQUI ────────────────────────────────────────────────
+  const SUPABASE_URL = 'https://qvojxddzaejwspehrmwc.supabase.co';
+  const SUPABASE_ANON_KEY = 'supabase_urlsb_publishable_IHD9trVKMRCQyCvEVzDVWA_XH1re1np';
+  // ──────────────────────────────────────────────────────────────────
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ── i18n ─────────────────────────────────────────────────────────
+  const T = {
+    pt: {
+      convite: 'Você está convidado(a)',
+      sub: 'Um dia de aprendizado, networking, bem-estar e sorteios exclusivos.',
+      seusDados: 'Seus dados',
+      lblNome: 'Nome completo',
+      lblTelefone: 'Telefone com DDD',
+      escolha: 'Escolha suas atividades',
+      hint: 'Cada atividade tem 40 vagas. Você pode participar de quantas quiser.',
+      carregando: 'Carregando atividades…',
+      erroCarregar: 'Não foi possível carregar as atividades. Recarregue a página.',
+      esgotado: 'Esgotado',
+      vaga: 'vaga', vagas: 'vagas',
+      selecionada: '✓ Selecionada',
+      nenhuma: 'Nenhuma atividade selecionada',
+      selecionadas: (n) => `${n} atividade${n > 1 ? 's' : ''} selecionada${n > 1 ? 's' : ''}`,
+      confirmar: 'Confirmar inscrição',
+      enviando: 'Enviando…',
+      erroNome: 'Informe seu nome completo.',
+      erroTelefone: 'Informe um telefone válido com DDD.',
+      erroAtividade: 'Escolha ao menos uma atividade.',
+      semVagasExtra: ' — atualize a página para ver as vagas atuais.',
+      confirmada: 'Inscrição confirmada',
+      resumo: (nome, lista) => `${nome}, você está inscrito(a) em: ${lista}.`,
+      nosVemos: 'Nos vemos no evento!',
+      novaInscricao: 'Fazer outra inscrição',
+      htmlLang: 'pt-BR',
+    },
+    en: {
+      convite: "You're invited",
+      sub: 'A day of learning, networking, wellness, and exclusive giveaways.',
+      seusDados: 'Your details',
+      lblNome: 'Full name',
+      lblTelefone: 'Phone number',
+      escolha: 'Choose your activities',
+      hint: 'Each activity has 40 seats. Join as many as you like.',
+      carregando: 'Loading activities…',
+      erroCarregar: 'Could not load the activities. Please reload the page.',
+      esgotado: 'Sold out',
+      vaga: 'seat', vagas: 'seats',
+      selecionada: '✓ Selected',
+      nenhuma: 'No activities selected',
+      selecionadas: (n) => `${n} activit${n > 1 ? 'ies' : 'y'} selected`,
+      confirmar: 'Confirm registration',
+      enviando: 'Sending…',
+      erroNome: 'Please enter your full name.',
+      erroTelefone: 'Please enter a valid phone number.',
+      erroAtividade: 'Choose at least one activity.',
+      semVagasExtra: ' — reload the page to see current availability.',
+      confirmada: 'Registration confirmed',
+      resumo: (nome, lista) => `${nome}, you are registered for: ${lista}.`,
+      nosVemos: 'See you at the event!',
+      novaInscricao: 'Register someone else',
+      htmlLang: 'en',
+    },
+  };
+
+  let lang = 'pt';
+  const t = (k, ...args) => {
+    const v = T[lang][k];
+    return typeof v === 'function' ? v(...args) : v;
+  };
+
+  const lista = document.getElementById('lista');
+  const form = document.getElementById('form');
+  const msg = document.getElementById('msg');
+  const btn = document.getElementById('enviar');
+  const contagem = document.getElementById('contagem');
+  const barra = document.getElementById('barra');
+  const confirmacao = document.getElementById('confirmacao');
+  const resumo = document.getElementById('resumo');
+
+  let atividades = [];
+  let ultimoResumo = null; // { nome, ids } para retraduzir a confirmação
+
+  function tituloDe(a) {
+    return (lang === 'en' && a.titulo_en) ? a.titulo_en : a.titulo;
+  }
+
+  function aplicarIdioma(novo) {
+    lang = novo;
+    document.documentElement.lang = T[lang].htmlLang;
+    document.getElementById('btn-pt').classList.toggle('ativo', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('ativo', lang === 'en');
+    document.querySelectorAll('[data-t]').forEach(el => {
+      el.textContent = t(el.dataset.t);
+    });
+    if (atividades.length) render(); else lista.textContent = t('carregando');
+    atualizarBarra();
+    if (ultimoResumo) {
+      const nomes = atividades
+        .filter(a => ultimoResumo.ids.includes(a.id))
+        .map(a => `${a.horario} · ${tituloDe(a)}`);
+      resumo.textContent = t('resumo', ultimoResumo.nome, nomes.join(' — '));
+    }
+    msg.className = 'msg'; // limpa erro no idioma antigo
+  }
+
+  document.getElementById('btn-pt').addEventListener('click', () => aplicarIdioma('pt'));
+  document.getElementById('btn-en').addEventListener('click', () => aplicarIdioma('en'));
+
+  // máscara simples de telefone BR
+  document.getElementById('telefone').addEventListener('input', (e) => {
+    let d = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (d.length > 6)      e.target.value = `(${d.slice(0,2)}) ${d.slice(2, d.length > 10 ? 7 : 6)}-${d.slice(d.length > 10 ? 7 : 6)}`;
+    else if (d.length > 2) e.target.value = `(${d.slice(0,2)}) ${d.slice(2)}`;
+    else                   e.target.value = d;
+  });
+
+  async function carregar() {
+    const { data, error } = await supabase.from('vagas_disponiveis').select('*');
+    if (error) {
+      lista.className = '';
+      lista.innerHTML = `<div class="msg erro" style="display:block">${t('erroCarregar')}</div>`;
+      return;
+    }
+    atividades = data;
+    render();
+  }
+
+  function badge(v) {
+    if (v <= 0)  return `<span class="vagas zero">${t('esgotado')}</span>`;
+    const rotulo = `${v} ${v === 1 ? t('vaga') : t('vagas')}`;
+    if (v <= 8)  return `<span class="vagas poucas">${rotulo}</span>`;
+    return `<span class="vagas">${rotulo}</span>`;
+  }
+
+  function render() {
+    const marcadas = new Set(selecionadas());
+    lista.className = '';
+    lista.innerHTML = atividades.map(a => {
+      const lotada = a.vagas_restantes <= 0;
+      return `
+      <label class="atividade ${lotada ? 'lotada' : ''}">
+        <input type="checkbox" name="atividade" value="${a.id}"
+               ${lotada ? 'disabled' : ''} ${marcadas.has(a.id) ? 'checked' : ''}>
+        <span class="hora">${a.horario}</span>
+        <span class="info">
+          <span class="titulo">${tituloDe(a)}</span>
+          ${a.palestrante ? `<span class="palestrante">${a.palestrante}</span>` : ''}
+        </span>
+        ${badge(a.vagas_restantes)}
+        <span class="check">${t('selecionada')}</span>
+      </label>`;
+    }).join('');
+    atualizarBarra();
+  }
+
+  lista.addEventListener('change', () => atualizarBarra());
+
+  function selecionadas() {
+    return [...form.querySelectorAll('input[name="atividade"]:checked')].map(i => Number(i.value));
+  }
+
+  function atualizarBarra() {
+    const n = selecionadas().length;
+    contagem.textContent = n === 0 ? t('nenhuma') : t('selecionadas', n);
+    btn.disabled = n === 0;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.className = 'msg';
+
+    const nome = document.getElementById('nome').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const escolhidas = selecionadas();
+
+    if (nome.length < 3) return erro(t('erroNome'));
+    if (telefone.replace(/\D/g, '').length < 10) return erro(t('erroTelefone'));
+    if (escolhidas.length === 0) return erro(t('erroAtividade'));
+
+    btn.disabled = true;
+    btn.textContent = t('enviando');
+
+    const { error } = await supabase.rpc('criar_inscricao', {
+      p_nome: nome,
+      p_telefone: telefone,
+      p_atividades: escolhidas,
+    });
+
+    btn.textContent = t('confirmar');
+
+    if (error) {
+      erro(error.message.includes('Sem vagas') ? error.message + t('semVagasExtra') : error.message);
+      btn.disabled = false;
+      carregar();
+      return;
+    }
+
+    ultimoResumo = { nome, ids: escolhidas };
+    const nomes = atividades.filter(a => escolhidas.includes(a.id)).map(a => `${a.horario} · ${tituloDe(a)}`);
+    resumo.textContent = t('resumo', nome, nomes.join(' — '));
+    form.style.display = 'none';
+    barra.style.display = 'none';
+    confirmacao.style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  function erro(texto) {
+    msg.textContent = texto;
+    msg.className = 'msg erro';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.getElementById('nova').addEventListener('click', () => {
+    form.reset();
+    ultimoResumo = null;
+    form.style.display = '';
+    barra.style.display = '';
+    confirmacao.style.display = 'none';
+    msg.className = 'msg';
+    carregar();
+    window.scrollTo(0, 0);
+  });
+
+  aplicarIdioma('pt');
+  carregar();
+</script>
+</body>
+</html>
