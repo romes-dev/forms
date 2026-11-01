@@ -34,12 +34,14 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         from: "Convite Especial <onboarding@resend.dev>", // troque por domínio verificado no Resend
         to: [Deno.env.get("EMAIL_DESTINO")],
+        ...(record.email ? { reply_to: record.email } : {}), // "Responder" no seu email vai direto para o inscrito
         subject: `Nova confirmação de presença: ${record.nome}`,
         text:
           `Nova confirmação — Pague Menos Imposto e Proteja Sua Renda\n` +
           `10 de novembro, 6:00 PM — Northwestern Mutual, Boca Raton\n\n` +
           `Nome: ${record.nome}\n` +
           `Telefone: ${record.telefone}\n` +
+          `Email: ${record.email ?? "(não informado)"}\n` +
           `Data da inscrição: ${new Date(record.created_at).toLocaleString("pt-BR", { timeZone: "America/New_York" })} (horário da Flórida)\n\n` +
           `Sessões:\n${lista}`,
       }),
