@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Inscrição — Health, Wellness & Lifestyle Expo</title>
+<title>Convite — Pague Menos Imposto e Proteja Sua Renda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --verde-escuro: #1B4332;
-    --verde: #2D6A4F;
-    --dourado: #B8862D;
-    --papel: #FAF7F0;
-    --tinta: #1F241C;
-    --tinta-suave: #5C6357;
-    --linha: #E4DECF;
+    --marinho-escuro: #141B3F;
+    --marinho: #1E2A5E;
+    --dourado: #B8912D;
+    --dourado-claro: #D9B45B;
+    --papel: #F7F5F1;
+    --tinta: #1C2030;
+    --tinta-suave: #5A5F72;
+    --linha: #E1DDD2;
     --raio: 14px;
   }
   * { box-sizing: border-box; margin: 0; }
@@ -28,8 +29,8 @@
     padding-bottom: 110px; /* espaço para a barra fixa */
   }
   header {
-    background: var(--verde-escuro);
-    color: #F3EFE4;
+    background: linear-gradient(160deg, var(--marinho) 0%, var(--marinho-escuro) 100%);
+    color: #F1EEE5;
     padding: 20px 20px 24px;
   }
   .idiomas {
@@ -48,19 +49,36 @@
     opacity: .55;
     transition: opacity .15s, border-color .15s;
   }
-  .idiomas button.ativo { opacity: 1; border-color: #D9B45B; }
+  .idiomas button.ativo { opacity: 1; border-color: var(--dourado-claro); }
   .idiomas button:focus-visible { outline: 3px solid rgba(217,180,91,.6); }
   .idiomas svg { width: 34px; height: 24px; border-radius: 4px; display: block; }
 
-  header .convite { font-size: 0.85rem; color: #CBBF98; margin-bottom: 6px; }
+  header .convite {
+    font-size: 0.8rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--dourado-claro);
+    margin-bottom: 8px;
+  }
   header h1 {
     font-family: 'Fraunces', serif;
     font-weight: 650;
-    font-size: 1.65rem;
+    font-size: 1.7rem;
     line-height: 1.2;
   }
-  header h1 em { color: #D9B45B; font-style: normal; }
-  header p.sub { margin-top: 10px; font-size: 0.9rem; color: #BFCDBF; }
+  header h1 em { color: var(--dourado-claro); font-style: normal; }
+  header p.sub { margin-top: 10px; font-size: 0.9rem; color: #C3C8DC; }
+
+  .detalhes {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(217,180,91,.35);
+    display: grid;
+    gap: 4px;
+    font-size: 0.88rem;
+  }
+  .detalhes .data { font-weight: 600; color: var(--dourado-claro); }
+  .detalhes .local { color: #C3C8DC; }
 
   main { max-width: 560px; margin: 0 auto; padding: 20px 16px; }
   h2 {
@@ -68,7 +86,7 @@
     font-weight: 650;
     font-size: 1.15rem;
     margin: 18px 0 10px;
-    color: var(--verde-escuro);
+    color: var(--marinho);
   }
 
   .campo { margin-bottom: 14px; }
@@ -83,8 +101,8 @@
     color: var(--tinta);
   }
   .campo input:focus {
-    outline: 3px solid rgba(45,106,79,.35);
-    border-color: var(--verde);
+    outline: 3px solid rgba(30,42,94,.3);
+    border-color: var(--marinho);
   }
 
   .atividade {
@@ -101,19 +119,20 @@
     transition: border-color .15s, background .15s;
   }
   .atividade:has(input:checked) {
-    border-color: var(--verde);
-    background: #F0F6F1;
+    border-color: var(--marinho);
+    background: #EFF1F8;
   }
-  .atividade:has(input:focus-visible) { outline: 3px solid rgba(45,106,79,.35); }
+  .atividade:has(input:focus-visible) { outline: 3px solid rgba(30,42,94,.3); }
   .atividade.lotada { opacity: .55; cursor: not-allowed; }
   .atividade input { position: absolute; opacity: 0; pointer-events: none; }
 
   .hora {
     font-family: 'Fraunces', serif;
     font-weight: 650;
-    font-size: 1.25rem;
-    color: var(--verde-escuro);
+    font-size: 1.1rem;
+    color: var(--marinho);
     min-width: 58px;
+    white-space: nowrap;
   }
   .info .titulo { font-weight: 600; font-size: 0.95rem; }
   .info .palestrante { font-size: 0.83rem; color: var(--tinta-suave); margin-top: 2px; }
@@ -124,8 +143,8 @@
     padding: 4px 9px;
     border-radius: 999px;
     white-space: nowrap;
-    background: #EAF3EB;
-    color: var(--verde);
+    background: #EDF0F9;
+    color: var(--marinho);
   }
   .vagas.poucas { background: #F7EDD8; color: var(--dourado); }
   .vagas.zero   { background: #F1E4E2; color: #A0442F; }
@@ -133,7 +152,7 @@
   .check {
     grid-column: 1 / -1;
     font-size: 0.8rem;
-    color: var(--verde);
+    color: var(--marinho);
     font-weight: 600;
     display: none;
   }
@@ -153,15 +172,15 @@
   .contagem { font-size: 0.85rem; color: var(--tinta-suave); flex: 1; }
   button.enviar {
     font: inherit; font-weight: 600;
-    background: var(--verde-escuro);
+    background: var(--marinho);
     color: #fff;
     border: 0;
     border-radius: 999px;
     padding: 13px 24px;
     cursor: pointer;
   }
-  button.enviar:disabled { background: #A9B3A6; cursor: not-allowed; }
-  button.enviar:focus-visible { outline: 3px solid rgba(45,106,79,.5); outline-offset: 2px; }
+  button.enviar:disabled { background: #A6AAB9; cursor: not-allowed; }
+  button.enviar:focus-visible { outline: 3px solid rgba(30,42,94,.5); outline-offset: 2px; }
 
   .msg {
     border-radius: var(--raio);
@@ -170,24 +189,25 @@
     margin: 12px 0;
     display: none;
   }
-  .msg.erro    { display: block; background: #F1E4E2; color: #7A2E1C; }
+  .msg.erro { display: block; background: #F1E4E2; color: #7A2E1C; }
 
   .carregando { text-align: center; color: var(--tinta-suave); padding: 30px 0; }
 
   #confirmacao { display: none; text-align: center; padding: 48px 20px; }
-  #confirmacao .selo { font-family: 'Fraunces', serif; font-size: 2.4rem; color: var(--verde); }
+  #confirmacao .selo { font-family: 'Fraunces', serif; font-size: 2.4rem; color: var(--dourado); }
   #confirmacao h2 { font-size: 1.4rem; }
   #confirmacao p { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
   #confirmacao button {
     margin-top: 22px; font: inherit; font-weight: 600;
-    background: none; border: 1.5px solid var(--verde);
-    color: var(--verde); border-radius: 999px; padding: 11px 22px; cursor: pointer;
+    background: none; border: 1.5px solid var(--marinho);
+    color: var(--marinho); border-radius: 999px; padding: 11px 22px; cursor: pointer;
   }
 
   @media (min-width: 700px) {
     header { text-align: center; }
     header h1 { font-size: 2.1rem; }
     .idiomas { justify-content: flex-end; }
+    .detalhes { justify-items: center; }
   }
 </style>
 </head>
@@ -224,8 +244,12 @@
     </button>
   </div>
   <p class="convite" data-t="convite"></p>
-  <h1>Health, Wellness &amp;<br><em>Lifestyle Expo</em></h1>
+  <h1 id="titulo-evento"></h1>
   <p class="sub" data-t="sub"></p>
+  <div class="detalhes">
+    <span class="data" data-t="dataEvento"></span>
+    <span class="local">Northwestern Mutual · 1515 S Federal Hwy, Suíte 213 — Boca Raton, FL 33432</span>
+  </div>
 </header>
 
 <main>
@@ -277,56 +301,60 @@
   // ── i18n ─────────────────────────────────────────────────────────
   const T = {
     pt: {
-      convite: 'Você está convidado(a)',
-      sub: 'Um dia de aprendizado, networking, bem-estar e sorteios exclusivos.',
+      convite: 'Convite Especial',
+      h1: 'Pague Menos Imposto<br><em>e Proteja Sua Renda</em>',
+      sub: 'Degustação gourmet gratuita com especialistas em planejamento financeiro.',
+      dataEvento: '10 de novembro às 6:00 PM',
       seusDados: 'Seus dados',
       lblNome: 'Nome completo',
       lblTelefone: 'Telefone',
-      escolha: 'Escolha suas atividades',
-      hint: 'Cada atividade tem 40 vagas. Você pode participar de quantas quiser.',
-      carregando: 'Carregando atividades…',
-      erroCarregar: 'Não foi possível carregar as atividades. Recarregue a página.',
+      escolha: 'Confirme sua presença',
+      hint: 'As vagas são limitadas — selecione a sessão abaixo para reservar a sua.',
+      carregando: 'Carregando…',
+      erroCarregar: 'Não foi possível carregar o evento. Recarregue a página.',
       esgotado: 'Esgotado',
       vaga: 'vaga', vagas: 'vagas',
       selecionada: '✓ Selecionada',
-      nenhuma: 'Nenhuma atividade selecionada',
-      selecionadas: (n) => `${n} atividade${n > 1 ? 's' : ''} selecionada${n > 1 ? 's' : ''}`,
-      confirmar: 'Confirmar inscrição',
+      nenhuma: 'Nenhuma sessão selecionada',
+      selecionadas: (n) => n === 1 ? 'Sessão selecionada' : `${n} sessões selecionadas`,
+      confirmar: 'Confirmar presença',
       enviando: 'Enviando…',
       erroNome: 'Informe seu nome completo.',
       erroTelefone: 'Informe um telefone válido: (555) 123-4567.',
-      erroAtividade: 'Escolha ao menos uma atividade.',
+      erroAtividade: 'Selecione a sessão para confirmar presença.',
       semVagasExtra: ' — atualize a página para ver as vagas atuais.',
-      confirmada: 'Inscrição confirmada',
-      resumo: (nome, lista) => `${nome}, você está inscrito(a) em: ${lista}.`,
-      nosVemos: 'Nos vemos no evento!',
-      novaInscricao: 'Fazer outra inscrição',
+      confirmada: 'Presença confirmada',
+      resumo: (nome, lista) => `${nome}, sua presença está confirmada: ${lista}.`,
+      nosVemos: 'Nos vemos no dia 10 de novembro!',
+      novaInscricao: 'Confirmar outra pessoa',
       htmlLang: 'pt-BR',
     },
     en: {
-      convite: "You're invited",
-      sub: 'A day of learning, networking, wellness, and exclusive giveaways.',
+      convite: 'Special Invitation',
+      h1: 'Pay Less Tax<br><em>and Protect Your Income</em>',
+      sub: 'Free gourmet tasting with financial planning specialists.',
+      dataEvento: 'November 10 at 6:00 PM',
       seusDados: 'Your details',
       lblNome: 'Full name',
       lblTelefone: 'Phone number',
-      escolha: 'Choose your activities',
-      hint: 'Each activity has 40 seats. Join as many as you like.',
-      carregando: 'Loading activities…',
-      erroCarregar: 'Could not load the activities. Please reload the page.',
+      escolha: 'Confirm your attendance',
+      hint: 'Seats are limited — select the session below to reserve yours.',
+      carregando: 'Loading…',
+      erroCarregar: 'Could not load the event. Please reload the page.',
       esgotado: 'Sold out',
       vaga: 'seat', vagas: 'seats',
       selecionada: '✓ Selected',
-      nenhuma: 'No activities selected',
-      selecionadas: (n) => `${n} activit${n > 1 ? 'ies' : 'y'} selected`,
-      confirmar: 'Confirm registration',
+      nenhuma: 'No session selected',
+      selecionadas: (n) => n === 1 ? 'Session selected' : `${n} sessions selected`,
+      confirmar: 'Confirm attendance',
       enviando: 'Sending…',
       erroNome: 'Please enter your full name.',
       erroTelefone: 'Please enter a valid phone number: (555) 123-4567.',
-      erroAtividade: 'Choose at least one activity.',
+      erroAtividade: 'Select the session to confirm your attendance.',
       semVagasExtra: ' — reload the page to see current availability.',
-      confirmada: 'Registration confirmed',
-      resumo: (nome, lista) => `${nome}, you are registered for: ${lista}.`,
-      nosVemos: 'See you at the event!',
+      confirmada: 'Attendance confirmed',
+      resumo: (nome, lista) => `${nome}, you are confirmed for: ${lista}.`,
+      nosVemos: 'See you on November 10!',
       novaInscricao: 'Register someone else',
       htmlLang: 'en',
     },
@@ -346,6 +374,7 @@
   const barra = document.getElementById('barra');
   const confirmacao = document.getElementById('confirmacao');
   const resumo = document.getElementById('resumo');
+  const tituloEvento = document.getElementById('titulo-evento');
 
   let atividades = [];
   let ultimoResumo = null; // { nome, ids } para retraduzir a confirmação
@@ -359,6 +388,7 @@
     document.documentElement.lang = T[lang].htmlLang;
     document.getElementById('btn-pt').classList.toggle('ativo', lang === 'pt');
     document.getElementById('btn-en').classList.toggle('ativo', lang === 'en');
+    tituloEvento.innerHTML = T[lang].h1; // conteúdo próprio, com <em>
     document.querySelectorAll('[data-t]').forEach(el => {
       el.textContent = t(el.dataset.t);
     });
