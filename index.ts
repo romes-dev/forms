@@ -32,15 +32,16 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Expo Inscrições <onboarding@resend.dev>", // troque por domínio verificado no Resend
+        from: "Convite Especial <onboarding@resend.dev>", // troque por domínio verificado no Resend
         to: [Deno.env.get("EMAIL_DESTINO")],
-        subject: `Nova inscrição: ${record.nome}`,
+        subject: `Nova confirmação de presença: ${record.nome}`,
         text:
-          `Nova inscrição no Health, Wellness & Lifestyle Expo\n\n` +
+          `Nova confirmação — Pague Menos Imposto e Proteja Sua Renda\n` +
+          `10 de novembro, 6:00 PM — Northwestern Mutual, Boca Raton\n\n` +
           `Nome: ${record.nome}\n` +
           `Telefone: ${record.telefone}\n` +
-          `Data: ${new Date(record.created_at).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}\n\n` +
-          `Atividades:\n${lista}`,
+          `Data da inscrição: ${new Date(record.created_at).toLocaleString("pt-BR", { timeZone: "America/New_York" })} (horário da Flórida)\n\n` +
+          `Sessões:\n${lista}`,
       }),
     });
 
