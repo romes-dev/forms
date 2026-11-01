@@ -264,6 +264,11 @@
       <input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="numeric"
              placeholder="(555) 123-4567" required>
     </div>
+    <div class="campo">
+      <label for="email" data-t="lblEmail"></label>
+      <input id="email" name="email" type="email" autocomplete="email" inputmode="email"
+             autocapitalize="off" spellcheck="false" placeholder="nome@exemplo.com" required>
+    </div>
 
     <h2 data-t="escolha"></h2>
     <p style="font-size:.85rem;color:var(--tinta-suave);margin-bottom:12px" data-t="hint"></p>
@@ -308,6 +313,7 @@
       seusDados: 'Seus dados',
       lblNome: 'Nome completo',
       lblTelefone: 'Telefone',
+      lblEmail: 'Email',
       escolha: 'Confirme sua presença',
       hint: 'As vagas são limitadas — selecione a sessão abaixo para reservar a sua.',
       carregando: 'Carregando…',
@@ -321,6 +327,7 @@
       enviando: 'Enviando…',
       erroNome: 'Informe seu nome completo.',
       erroTelefone: 'Informe um telefone válido: (555) 123-4567.',
+      erroEmail: 'Informe um email válido, como nome@exemplo.com.',
       erroAtividade: 'Selecione a sessão para confirmar presença.',
       semVagasExtra: ' — atualize a página para ver as vagas atuais.',
       confirmada: 'Presença confirmada',
@@ -337,6 +344,7 @@
       seusDados: 'Your details',
       lblNome: 'Full name',
       lblTelefone: 'Phone number',
+      lblEmail: 'Email',
       escolha: 'Confirm your attendance',
       hint: 'Seats are limited — select the session below to reserve yours.',
       carregando: 'Loading…',
@@ -350,6 +358,7 @@
       enviando: 'Sending…',
       erroNome: 'Please enter your full name.',
       erroTelefone: 'Please enter a valid phone number: (555) 123-4567.',
+      erroEmail: 'Please enter a valid email, like name@example.com.',
       erroAtividade: 'Select the session to confirm your attendance.',
       semVagasExtra: ' — reload the page to see current availability.',
       confirmada: 'Attendance confirmed',
@@ -473,10 +482,12 @@
 
     const nome = document.getElementById('nome').value.trim();
     const telefone = document.getElementById('telefone').value.trim();
+    const email = document.getElementById('email').value.trim().toLowerCase();
     const escolhidas = selecionadas();
 
     if (nome.length < 3) return erro(t('erroNome'));
     if (telefone.replace(/\D/g, '').length !== 10) return erro(t('erroTelefone'));
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return erro(t('erroEmail'));
     if (escolhidas.length === 0) return erro(t('erroAtividade'));
 
     btn.disabled = true;
@@ -485,6 +496,7 @@
     const { error } = await supabase.rpc('criar_inscricao', {
       p_nome: nome,
       p_telefone: telefone,
+      p_email: email,
       p_atividades: escolhidas,
     });
 
